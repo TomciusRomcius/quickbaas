@@ -1,9 +1,13 @@
-import { Auth } from "quickbaas-sdk";
+import { BackendApplication } from "quickbaas-sdk";
 import "./index.css";
 import { useRef } from "react";
 
 function App() {
-  Auth.initialize({ backendURL: "http://localhost:3000" });
+  const app = new BackendApplication({
+    backendURL: "http://localhost:3000",
+  });
+
+  const auth = app.getAuth();
 
   const signUpEmailRef = useRef<HTMLInputElement>(null);
   const signUpPasswordRef = useRef<HTMLInputElement>(null);
@@ -12,19 +16,21 @@ function App() {
   const signInPasswordRef = useRef<HTMLInputElement>(null);
 
   const onSignUp = () => {
-    Auth.signUpWithPassword(
-      signUpEmailRef.current!.value,
-      signUpPasswordRef.current!.value
-    )
+    auth
+      .signUpWithPassword(
+        signUpEmailRef.current!.value,
+        signUpPasswordRef.current!.value
+      )
       .then(() => alert("success"))
       .catch(() => alert("failure"));
   };
 
   const onSignIn = () => {
-    Auth.signInWithPassword(
-      signInEmailRef.current!.value,
-      signInPasswordRef.current!.value
-    )
+    auth
+      .signInWithPassword(
+        signInEmailRef.current!.value,
+        signInPasswordRef.current!.value
+      )
       .then(() => alert("success"))
       .catch(() => alert("failure"));
   };
